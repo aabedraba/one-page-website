@@ -1,0 +1,544 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Your First Telegram Bot</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid="UA-52746336-1"
+                  id="taller-gdg"
+                  title="Your First Telegram Bot"
+                  environment="web"
+                  feedback-link="https://github.com/googlecodelabs/your-first-pwapp/issues">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <p class="image-container"><img style="width: 200.00px" src="img/37bb16d191d5eb02.png"></p>
+<h2 is-upgraded><strong>What will we see today?</strong></h2>
+<h3 is-upgraded><strong>NodeJS</strong></h3>
+<p>We will first need to download NodeJS as our JavaScript runtime server to be able to write the logic of our bot. </p>
+<h3 is-upgraded><strong>Telegram Bots</strong></h3>
+<p>Of course... </p>
+<h3 is-upgraded><strong>Telegram Bot API for NodeJS</strong></h3>
+<p>This an API wrapper around Telegram&#39;s HTTP-based interface.</p>
+<h3 is-upgraded><strong>Firebase</strong></h3>
+<p>Will be our real-time database to store our information and data.</p>
+<h3 is-upgraded><strong>Heroku</strong></h3>
+<p>Need to deploy the bot somewhere, right? Well, it better be fast and cheap.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Installing NodeJS with NPM" duration="2">
+        <p>Node is a runtime for JavaScript to run out of the browser, built with Google Chrome&#39;s V8 engine. NPM is Node&#39;s Package Manager. </p>
+<p><a href="https://nodejs.org/en/" target="_blank"><paper-button class="colored" raised>Install Node from here</paper-button></a></p>
+<p>Or you can use the following instructions: </p>
+<p>If you&#39;re using<strong> Ubuntu/Debian</strong></p>
+<pre><code>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - 
+&amp;&amp;
+sudo apt install -y nodejs</code></pre>
+<p>If you&#39;re using <strong>MacOS </strong>download the installer <a href="https://nodejs.org/dist/v12.16.1/node-v12.16.1.pkg" target="_blank">here</a>.</p>
+<p>On <strong>Windows</strong> (shame on you) download the installer <a href="https://nodejs.org/dist/v12.16.1/node-v12.16.1-x86.msi" target="_blank">here</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Telegram Bots" duration="0">
+        <p>We will be using a Telegram bot, of course. But for that, you&#39;ll have to first create one! </p>
+<p>Visit<a href="https://t.me/botfather" target="_blank"><strong> t.me/botfather</strong></a> and follow instructions to create a new bot. </p>
+<ol type="1" start="1">
+<li>Create a new bot</li>
+</ol>
+<p class="image-container"><img style="width: 442.00px" src="img/d74441a587957c7f.png"></p>
+<ol type="1" start="2">
+<li>Give it a <strong>(non-unique)</strong> name</li>
+</ol>
+<p class="image-container"><img style="width: 446.00px" src="img/c3c6afc858ef8dcd.png"></p>
+<ol type="1" start="3">
+<li>Now give it a <strong>unique username</strong> that ends with bot. The part in red is your bot&#39;s ID. Save it as we will use it later.</li>
+</ol>
+<p class="image-container"><img style="width: 444.00px" src="img/dd15678c1cc750bc.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Telegram&#39;s Bots Interface" duration="0">
+        <p><a href="https://core.telegram.org/bots/api" target="_blank">Telegram bot&#39;s  API</a> uses a <code>http</code> interface to interact with the bots.</p>
+<p>Let&#39;s fetch all actions from our bot </p>
+<ol type="1" start="1">
+<li><h3 is-upgraded><strong>Visit your bot&#39;s Updates page</strong></h3>
+</li>
+</ol>
+<p>Go to <a href="https://api.telegram.org/bot%3CTOKEN%3E/getUpdates" target="_blank"><code>https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code></a><code> </code></p>
+<p><code>&lt;TOKEN&gt;</code> is your newly created Token from the previous step. </p>
+<ol type="1" start="2">
+<li><h3 is-upgraded><strong>Text your bot and check the results by refreshing</strong></h3>
+</li>
+</ol>
+<p>Go talk to your new bot and say ‘Hello&#39;... Don&#39;t be shy! </p>
+<p>After that refresh the updates page.</p>
+<ol type="1" start="3">
+<li><h3 is-upgraded><strong>Make your bot send you a message </strong></h3>
+</li>
+</ol>
+<p> You could make your bot talk to you for the first with: </p>
+<p><a href="https://api.telegram.org/bot%3CTOKEN%3E/sendMessage?chat_id=%3CYOUR_ID%3E&text=Hola%20mundo!" target="_blank"><code>https://api.telegram.org/bot&lt;TOKEN&gt;/sendMessage?chat_id=&lt;YOUR_ID&gt;&amp;text=Hola%20mundo!</code></a></p>
+<p>Where <code>&lt;TOKEN&gt;</code> is your Telegram&#39;s token and <code>&lt;YOUR_ID&gt;</code> can be found from the Updates page from the latter step. You can find the example below: </p>
+<p class="image-container"><img style="width: 476.00px" src="img/f31a285f69a1888f.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Telegram Bot API for NodeJS" duration="0">
+        <p>We will be using <a href="http://github.com/yagop/node-telegram-bot-api" target="_blank">github.com/yagop/node-telegram-bot-api</a> as our API wrapper. Create a new directory and install the NPM package with the following command: </p>
+<pre><code>mkdir newBot
+
+cd newBot
+
+npm install --save node-telegram-bot-api</code></pre>
+<h3 is-upgraded><strong>Now let&#39;s check if it&#39;s working. </strong></h3>
+<ol type="1" start="1">
+<li>Create a new file in the folder and call it <code>index.js</code></li>
+<li>Copy and paste the following code</li>
+</ol>
+<pre><code>const TelegramBot = require(&#39;node-telegram-bot-api&#39;);
+
+// replace the value below with the Telegram token you receive from @BotFather
+const token = &#39;TELEGRAM_BOT_TOKEN&#39;;
+
+const options = {
+    /* webHook: {
+        port: process.env.PORT,
+    } */
+    // to run local node, comment webhook and uncomment polling
+    polling: true
+};
+
+// Create a bot that uses &#39;polling&#39; to fetch new updates
+const bot = new TelegramBot(token, options);
+
+
+bot.onText(/hola/, (msg) =&gt; {
+  // &#39;msg&#39; is the received Message from Telegram
+  const chatId = msg.chat.id;
+
+  // send back a message with the name of the user
+  bot.sendMessage(chatId, &#34;Hola &#34; + msg.from.first_name);
+});</code></pre>
+<ol type="1" start="3">
+<li>Change your <code>YOUR_TELEGRAM_BOT_TOKEN</code> with the token you created in step 3. </li>
+<li>Open a Terminal, go to the folder you just created and execute the NodeJS server with</li>
+</ol>
+<pre><code>node index.js</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a Firebase account" duration="0">
+        <ol type="1" start="1">
+<li><h3 is-upgraded><strong>Create a Firebase</strong></h3>
+</li>
+</ol>
+<p><a href="https://console.firebase.google.com/" target="_blank"><paper-button class="colored" raised>Create Firebase account</paper-button></a></p>
+<ol type="1" start="2">
+<li><h3 is-upgraded><strong>Create a project </strong></h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 624.00px" src="img/d1bb55b4a880857f.png"></p>
+<ol type="1" start="3">
+<li><h3 is-upgraded><strong>Give it a cool name</strong></h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 624.00px" src="img/29c96b4fb026fb7d.png"></p>
+<ol type="1" start="4">
+<li><h3 is-upgraded><strong>Disable Google Analytics</strong></h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 624.00px" src="img/dfeee20f7cd7176f.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a Firebase App" duration="0">
+        <p>Firebase has different configurations for different platforms as Web, Android or iOS. We will use Web configuration&#39;s values. For that, let&#39;s create a Web project.</p>
+<ol type="1" start="1">
+<li><h3 is-upgraded><strong>Create a Web project</strong></h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 522.00px" src="img/3188086f6819b2cf.png"></p>
+<ol type="1" start="2">
+<li><h3 is-upgraded>Give your App a <strong>very unique </strong><strong>app ID</strong></h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 589.00px" src="img/9c468718b75c3c2b.png"></p>
+<h3 is-upgraded><strong>3. Now... Stop! </strong></h3>
+<p>We will be needing Firebase configuration for the next step... For now, you just have to go to the next step :) </p>
+<p class="image-container"><img style="width: 624.00px" src="img/fd7f5134f8126369.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Add Firebase to your code" duration="0">
+        <ol type="1" start="1">
+<li><h3 is-upgraded><strong>Let&#39;s add Firebase to NPM </strong></h3>
+</li>
+</ol>
+<p>For that, go back to the terminal (be sure you&#39;re in the project folder) and install Firebase</p>
+<pre><code>npm install --save firebase</code></pre>
+<ol type="1" start="2">
+<li><h3 is-upgraded><strong>Add Firebase Database to your project</strong></h3>
+</li>
+</ol>
+<p>Add this to the top of your code for Firebase support. Change <code>&lt;YOUR_FIREBASE_CONFIG&gt;</code> with your config from the previous step. </p>
+<pre><code>var firebase = require(&#39;firebase/app&#39;);
+require(&#39;firebase/database&#39;);
+
+var firebaseConfig = {
+    &lt;YOUR_FIREBASE_CONFIG&gt;
+  };
+
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();</code></pre>
+<ol type="1" start="3">
+<li><h3 is-upgraded><strong>Now let&#39;s create a new entry in the database</strong></h3>
+</li>
+</ol>
+<p>This is a sample code for creating a new user. Add it to the end of the file</p>
+<pre><code>bot.onText(/\/new_user/, (msg) =&gt; {
+  const user_id = msg.from.id;
+  const user_name = msg.from.first_name;
+  const creation_date = new Date();
+
+  database.ref(&#39;/users/&#39; + user_id).set({
+    name: user_name,
+    date: creation_date.getTime()
+  });
+
+  bot.sendMessage(msg.chat.id, &#34;User &#34; + user_name + &#34; added to the database.&#34;);
+})</code></pre>
+<ol type="1" start="4">
+<li><h3 is-upgraded>Enable Firebase&#39;s Real Time Database</h3>
+</li>
+</ol>
+<p>Go to the Database page</p>
+<p class="image-container"><img style="width: 264.00px" src="img/d52324b217ffe0bd.png"></p>
+<p>Create a Real Time Database</p>
+<p class="image-container"><img style="width: 624.00px" src="img/4d0a071db00fda1b.png"></p>
+<p>And, finally, choose ‘Test mode&#39; to enable reading and writing to the database. </p>
+<p class="image-container"><img style="width: 624.00px" src="img/629a5300038b08a.png"></p>
+<ol type="1" start="5">
+<li><h3 is-upgraded><strong>Check that your Database is working</strong></h3>
+</li>
+</ol>
+<p>For that, we&#39;ll have to go back to the terminal and run the server with</p>
+<pre><code>node index.js</code></pre>
+<p>Go to your Telegram bot and try your newly created <code>/new_user</code> command... <em>Et voilá!</em></p>
+<p class="image-container"><img style="width: 624.00px" src="img/422d58b5d0ae7f.png"> </p>
+<ol type="1" start="6">
+<li><h3 is-upgraded>L<strong>et&#39;s try to fetch the users from the database</strong></h3>
+</li>
+</ol>
+<p>Before we move forward, you need to cancel your server with <code>Ctrl-C. </code></p>
+<p>Add this to the end of your code.</p>
+<pre><code>bot.onText(/\/get_users/, (msg) =&gt; {
+  let message = &#34;&#34;;
+  database.ref(&#39;/users/&#39;).once(&#39;value&#39;).then(snapshot =&gt; {
+    snapshot.forEach(id_usuario =&gt; {
+      message += &#34;Usuario: &#34; + id_usuario.val().name + &#39;\n&#39;;
+    })
+
+    bot.sendMessage(msg.chat.id, message);
+  })
+})</code></pre>
+<p>And now go try it out!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Before we move..." duration="0">
+        <p>to the next step, your code should look like this</p>
+<pre><code>var firebase = require(&#39;firebase/app&#39;);
+require(&#39;firebase/database&#39;);
+
+var firebaseConfig = {
+    &lt;YOUR_FIREBASE_CONFIG&gt;
+  };
+
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+
+const TelegramBot = require(&#39;node-telegram-bot-api&#39;);
+
+// replace the value below with the Telegram token you receive from @BotFather
+const token = &#39;&lt;YOUR_TOKEN&gt;&#39;;
+
+const options = {
+    /* webHook: {
+        port: process.env.PORT,
+    } */
+    // to run local node, comment webhook and uncomment polling
+    polling: true
+};
+
+// Create a bot that uses &#39;polling&#39; to fetch new updates
+const bot = new TelegramBot(token, options);
+
+
+bot.onText(/hola/, (msg) =&gt; {
+    // &#39;msg&#39; is the received Message from Telegram
+    const chatId = msg.chat.id;
+
+    // send back a message with the name of the user
+    bot.sendMessage(chatId, &#34;Hola &#34; + msg.from.first_name);
+});
+
+bot.onText(/\/new_user/, (msg) =&gt; {
+  const user_id = msg.from.id;
+  const user_name = msg.from.first_name;
+  const creation_date = new Date();
+
+  database.ref(&#39;/users/&#39; + user_id).set({
+    name: user_name,
+    date: creation_date.getTime()
+  });
+
+  bot.sendMessage(msg.chat.id, &#34;User &#34; + user_name + &#34; added to the database.&#34;);
+})
+
+bot.onText(/\/get_users/, (msg) =&gt; {
+  let message = &#34;&#34;;
+  database.ref(&#39;/users/&#39;).once(&#39;value&#39;).then(snapshot =&gt; {
+    snapshot.forEach(id_usuario =&gt; {
+      message += &#34;Usuario: &#34; + id_usuario.val().name + &#39;\n&#39;;
+    })
+
+    bot.sendMessage(msg.chat.id, message);
+  })
+})</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Download Heroku&#39;s SDK" duration="0">
+        <ol type="1" start="1">
+<li><h3 is-upgraded><strong>Sign up to Heroku&#39;s platform</strong></h3>
+</li>
+</ol>
+<p><a href="https://signup.heroku.com/" target="_blank"><paper-button class="colored" raised>Sign up for Heroku</paper-button></a></p>
+<ol type="1" start="2">
+<li><h3 is-upgraded><strong>Create a new project</strong></h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 624.00px" src="img/1fd6e9f69e9dd055.png"></p>
+<ol type="1" start="3">
+<li><h3 is-upgraded><strong>Install Heroku&#39;s SDK</strong></h3>
+</li>
+</ol>
+<p>Before hosting our Telegram bot using Heroku, we first need to install it, right?</p>
+<p><a href="https://devcenter.heroku.com/articles/heroku-cli#download-and-install" target="_blank"><paper-button class="colored" raised>Install Heroku&#39;s SDK</paper-button></a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy the bot" duration="0">
+        <p>Now that we have Heroku installed, let&#39;s deploy our bot and run it on a NodeJS server. </p>
+<ol type="1" start="1">
+<li><h3 is-upgraded><strong>Create a Procfile </strong></h3>
+</li>
+</ol>
+<p>First we need to create a Procfile. This is the configuration file for Heroku to know what to do with the code you will upload. </p>
+<p>Create a file called <code>Procfile</code> with the following content:</p>
+<pre><code>web: node index.js</code></pre>
+<ol type="1" start="2">
+<li><h3 is-upgraded><strong>Add Heroku configuration to your file</strong></h3>
+</li>
+</ol>
+<p>Now, the <code>options variable</code> we carried through step 1 will come into use. To use the code in production you need to comment <code>polling: true</code> line and uncomment the webhook options, as follows: </p>
+<pre><code>const options = {
+    webHook: {
+        port: process.env.PORT,
+    }
+    // to run local node, comment webhook and uncomment polling
+    //polling: true
+};</code></pre>
+<p>And add Telegram&#39;s token as an environment variable by changing the <code>token</code> variable value to the following:</p>
+<pre><code>const token = process.env.TELEGRAM_TOKEN  ||  &#39;&lt;YOUR_TOKEN&gt;&#39;;</code></pre>
+<p>Now add your Heroku HTTPs Port as an environment variable as well. You can find <code>&lt;YOUR_HEROKU_PROJECT_ID&gt;</code> at your Heroku project web page under <strong>Settings &gt; Domains</strong>:</p>
+<pre><code>const url = process.env.APP_URL || &#39;https://&lt;YOUR_HEROKU_PROJECT_ID&gt;.herokuapp.com:443&#39;; </code></pre>
+<p><strong>Your code should look as follows: </strong></p>
+<pre><code>var firebase = require(&#39;firebase/app&#39;);
+require(&#39;firebase/database&#39;);
+
+var firebaseConfig = {
+    apiKey: &#34;AI6peOqLUZZlbTQEPp-9ExI2KZEoX5HxKk&#34;,
+    authDomain: &#34;gdg-telegram-bot.firebaseapp.com&#34;,
+    databaseURL: &#34;https://gdg-telegram-bot.firebaseio.com&#34;,
+    projectId: &#34;gdg-telegram-bot&#34;,
+    storageBucket: &#34;gdg-telegram-bot.appspot.com&#34;,
+    messagingSenderId: &#34;91505693154&#34;,
+    appId: &#34;1:76435691244:web:f3aa73e8b8fae633aee649&#34;
+};
+
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+
+const TelegramBot = require(&#39;node-telegram-bot-api&#39;);
+
+// replace the value below with the Telegram token you receive from @BotFather
+const token = process.env.TELEGRAM_TOKEN  || &#39;1094948865:AAENZn3NlkKa3gi3O_TYViUWNm-doBty808&#39;;
+const url = process.env.APP_URL || &#39;https://my-second-telegram-bot.herokuapp.com:443&#39;; 
+
+
+const options = {
+     webHook: {
+        port: process.env.PORT,
+    }
+    // to run local node, comment webhook and uncomment polling
+    //polling: true
+};
+
+// Create a bot that uses &#39;polling&#39; to fetch new updates
+const bot = new TelegramBot(token, options);
+
+
+bot.onText(/hola/, (msg) =&gt; {
+    // &#39;msg&#39; is the received Message from Telegram
+    const chatId = msg.chat.id;
+
+    // send back a message with the name of the user
+    bot.sendMessage(chatId, &#34;Hola &#34; + msg.from.first_name);
+});
+
+bot.onText(/\/new_user/, (msg) =&gt; {
+    const user_id = msg.from.id;
+    const user_name = msg.from.first_name;
+    const creation_date = new Date();
+
+    database.ref(&#39;/users/&#39; + user_id).set({
+        name: user_name,
+        date: creation_date.getTime()
+    });
+
+    bot.sendMessage(msg.chat.id, &#34;User &#34; + user_name + &#34; added to the database.&#34;);
+})
+
+bot.onText(/\/get_users/, (msg) =&gt; {
+    let message = &#34;&#34;;
+    database.ref(&#39;/users/&#39;).once(&#39;value&#39;).then(snapshot =&gt; {
+        snapshot.forEach(id_usuario =&gt; {
+            message += &#34;Usuario: &#34; + id_usuario.val().name + &#39;\n&#39;;
+        })
+
+        bot.sendMessage(msg.chat.id, message);
+    })
+})</code></pre>
+<ol type="1" start="3">
+<li><h3 is-upgraded><strong>Login to Heroku CLI</strong></h3>
+</li>
+</ol>
+<p>Let&#39;s go back to the terminal. Again, make sure you&#39;re working from the same folder as your project.</p>
+<p>Use the following command to login and follow instructions:</p>
+<pre><code>heroku login</code></pre>
+<ol type="1" start="4">
+<li><h3 is-upgraded><strong>Create a Heroku git branch and push your code</strong></h3>
+</li>
+</ol>
+<p>Heroku will know about our code by pushing it to a branch controlled by our Heroku project. For that: </p>
+<pre><code>npm init //Follow the default instructions here
+
+git init
+
+heroku git:remote -a &lt;YOUR_PROJECT_ID&gt;
+
+git add .
+
+git commit -am &#34;make it better&#34;
+
+git push heroku master
+
+heroku ps:scale web=1</code></pre>
+<ol type="1" start="5">
+<li><h3 is-upgraded><strong>Run! Say hi to your bot! </strong></h3>
+</li>
+</ol>
+<p>Say ‘hello&#39; and check if it&#39;s working</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Add a new feature" duration="0">
+        <p>If you want to add a new &#34;feature&#34; you first need to pause the server, debug the code locally and then upload it to Heroku again. Let&#39;s follow the steps: </p>
+<ol type="1" start="1">
+<li><h3 is-upgraded><strong>Shutdown all servers</strong></h3>
+</li>
+</ol>
+<pre><code>heroku ps:scale web=0</code></pre>
+<ol type="1" start="2">
+<li><h3 is-upgraded><strong>Comment the webhook option and uncomment polling</strong></h3>
+</li>
+</ol>
+<pre><code>const options = {
+    /* webHook: {
+        port: process.env.PORT,
+    } */
+    // to run local node, comment webhook and uncomment polling
+    polling: true
+};</code></pre>
+<ol type="1" start="3">
+<li><h3 is-upgraded><strong>Add your new feature and test it locally</strong></h3>
+</li>
+</ol>
+<p>A &#34;How are you?&#34; message?</p>
+<ol type="1" start="4">
+<li><h3 is-upgraded><strong>Uncomment the webhook option and comment polling</strong></h3>
+</li>
+</ol>
+<pre><code>const options = {
+    webHook: {
+        port: process.env.PORT,
+    }
+    // to run local node, comment webhook and uncomment polling
+    //polling: true
+};</code></pre>
+<ol type="1" start="5">
+<li><h3 is-upgraded><strong>Commit your changes and push them to your heroku branch</strong></h3>
+</li>
+</ol>
+<pre><code>git add .
+
+git commit -am &#34;new feature&#34; 
+
+git push heroku master</code></pre>
+<ol type="1" start="6">
+<li><h3 is-upgraded><strong>Now, turn back on the server</strong></h3>
+</li>
+</ol>
+<pre><code>heroku ps:scale web=1</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
