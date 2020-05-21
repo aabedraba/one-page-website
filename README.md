@@ -14,4 +14,4 @@
 
 ## Thanks
 
-A fork from [Ismael Talden](http://ismailtasdelen.me)'s website.
+A fork from [@ismailtasdelen](https://github.com/website-template/one-page-website)'s website.
