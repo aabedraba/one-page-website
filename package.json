@@ -1,0 +1,23 @@
+{
+  "name": "one-page-website",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\"> \tOne Page Website </h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aabedraba/one-page-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aabedraba/one-page-website/issues"
+  },
+  "homepage": "https://github.com/aabedraba/one-page-website#readme",
+  "dependencies": {
+    "firebase-tools": "^9.3.0"
+  }
+}
